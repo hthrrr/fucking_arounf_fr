@@ -19,7 +19,7 @@ app.post('/api/submit', (req, res) => {
 });
 
 app.post('/api/add', (req, res) => {
-  
+  res.json({ message: `Hello, ${req.body.name}!` });
 })
 
 app.use((req, res) => {
