@@ -1,38 +1,19 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const button = document.getElementById('sendBtn');
-  const input = document.getElementById('nameInput');
-
-  button.addEventListener('click', () => {
-    const name = input.value;
-
-    fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data.message);
-    })
-    .catch(err => {
-      alert('Error: ' + err);
-    })
-  });
-});
-
-
-
+// Debug element selection
 const list = document.getElementById("list-id")
-const cart = document.getElementById("add-cart-text")
+const cart = document.getElementById("add-cart-text");
+const quantity = document.getElementById("add-cart-quantity")
 const addBtn = document.getElementById("add-cart-btn")
 
 addBtn.addEventListener('click', (event) => {
-  const li = addItem()
+  const itemName = cart.value.trim();
+  const itemQuantity = quantity.value
+  const li = addItem(itemName)
+  
   const pendingElement = document.createElement('img')
   pendingElement.src = "/images/pending.png"
   li.appendChild(pendingElement)
   
-  additemToDatabase(cart.value)
+  additemToDatabase(itemName, itemQuantity)
     .then(data => {
       console.log(data.message);
       pendingElement.remove()
@@ -43,8 +24,7 @@ addBtn.addEventListener('click', (event) => {
     });
 });
 
-const addItem = () => {
-  const name = cart.value
+const addItem = (name) => {
   if (name.trim() !== '') {
     const li = document.createElement('li')
     li.classList.add("list-item")
@@ -60,6 +40,7 @@ const addItem = () => {
     
     // Add event listener to delete button
     deleteBtn.addEventListener('click', () => {
+      //add deleteItemFromDatabase call
       li.remove()
     })
     
@@ -73,6 +54,7 @@ const addItem = () => {
     cart.value = ''
     return li
   }
+  return null; // Explicitly return null if name is empty
 }
 
 const deleteItemFromDatabase = (item) => {
@@ -90,16 +72,44 @@ const deleteItemFromDatabase = (item) => {
   });
 }
 
-const additemToDatabase = (item) => {
+const additemToDatabase = (itemName, itemQuantity) => {
   // Simulate database latency (1 second)
-  return fetch('/api/add', {
+  console.log(itemQuantity)
+  console.log(itemName)
+  return fetch('/api/tasks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ item })
+    body: JSON.stringify({ itemName, itemQuantity })
   })
   .then(res => res.json())
   .then(data => {
     console.log(data.message);
     return data
   });
+}
+
+
+
+
+
+const createDropdown = () => {
+  const dropdown = document.createElement('select')
+  dropdown.classList.add("dropdown")
+
+  const option1 = document.createElement('option')
+  option1.value = "option1"
+  option1.text = "Option 1"
+  dropdown.appendChild(option1)
+
+  const option2 = document.createElement('option')
+  option2.value = "option2"
+  option2.text = "Option 2"
+  dropdown.appendChild(option2)
+
+  const option3 = document.createElement('option')
+  option3.value = "option3"
+  option3.text = "Option 3"
+  dropdown.appendChild(option3)
+
+  return dropdown
 }
