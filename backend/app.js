@@ -1,6 +1,11 @@
 const express = require('express');
+const { connectDB } = require('./config/db');
 const app = express();
 const port = 3000;
+const dotenv = require('dotenv')
+const path = require('path')
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
 app.use((req, res, next) => {
     console.log(req.method, req.url)
@@ -28,5 +33,6 @@ app.post('/api/add', (req, res) => {
 // })
 
 app.listen(port, () => {
+  connectDB()
   console.log(`Server running at http://localhost:${port}`);
 });
