@@ -1,24 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const button = document.getElementById('sendBtn');
-  const input = document.getElementById('nameInput');
-
-  button.addEventListener('click', () => {
-    const name = input.value;
-
-    fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data.message);
-    })
-    .catch(err => {
-      alert('Error: ' + err);
-    })
-  });
-});
 
 
 
@@ -60,6 +39,7 @@ const addItem = () => {
     
     // Add event listener to delete button
     deleteBtn.addEventListener('click', () => {
+      //add deleteItemFromDatabase call
       li.remove()
     })
     
@@ -92,7 +72,7 @@ const deleteItemFromDatabase = (item) => {
 
 const additemToDatabase = (item) => {
   // Simulate database latency (1 second)
-  return fetch('/api/add', {
+  return fetch('/api/tasks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ item })
@@ -102,4 +82,26 @@ const additemToDatabase = (item) => {
     console.log(data.message);
     return data
   });
+}
+
+const createDropdown = () => {
+  const dropdown = document.createElement('select')
+  dropdown.classList.add("dropdown")
+
+  const option1 = document.createElement('option')
+  option1.value = "option1"
+  option1.text = "Option 1"
+  dropdown.appendChild(option1)
+
+  const option2 = document.createElement('option')
+  option2.value = "option2"
+  option2.text = "Option 2"
+  dropdown.appendChild(option2)
+
+  const option3 = document.createElement('option')
+  option3.value = "option3"
+  option3.text = "Option 3"
+  dropdown.appendChild(option3)
+
+  return dropdown
 }
