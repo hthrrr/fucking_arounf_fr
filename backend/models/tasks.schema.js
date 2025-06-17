@@ -1,26 +1,17 @@
 const mongoose = require('mongoose')
 
 const taskSchema = mongoose.Schema({
-    task: {
+    itemName: {
         type: String,
         required: true
     },
-    isCompleted: {
-        type: Boolean,
+    itemQuantity: {
+        type: Number,
         default: false
-    },
-    isUrgent: {
-        type: Boolean,
-        default: false
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
     }
 }, {
     timestamps: true
 })
-
 
 const Task = mongoose.model('Task', taskSchema)
 
