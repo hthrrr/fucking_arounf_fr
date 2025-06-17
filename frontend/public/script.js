@@ -79,7 +79,7 @@ const additemToDatabase = (itemName, itemQuantity) => {
   return fetch('/api/tasks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ itemName })
+    body: JSON.stringify({ itemName, itemQuantity })
   })
   .then(res => res.json())
   .then(data => {
