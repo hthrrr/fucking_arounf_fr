@@ -25,7 +25,8 @@ app.post('/api/submit', (req, res) => {
 
 //add task to db
 app.post('/api/tasks', (req, res) => {
-  res.json({ message: `Hello, ${req.body.name}!` });
+  console.log(req.body)
+  res.json({ message: `Hello, ${req.body.itemName}!` });
 })
 
 // app.use((req, res) => {

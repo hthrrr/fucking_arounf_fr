@@ -1,17 +1,19 @@
-
-
-
+// Debug element selection
 const list = document.getElementById("list-id")
-const cart = document.getElementById("add-cart-text")
+const cart = document.getElementById("add-cart-text");
+const quantity = document.getElementById("add-cart-quantity")
 const addBtn = document.getElementById("add-cart-btn")
 
 addBtn.addEventListener('click', (event) => {
-  const li = addItem()
+  const itemName = cart.value.trim();
+  const itemQuantity = quantity.value
+  const li = addItem(itemName)
+  
   const pendingElement = document.createElement('img')
   pendingElement.src = "/images/pending.png"
   li.appendChild(pendingElement)
   
-  additemToDatabase(cart.value)
+  additemToDatabase(itemName, itemQuantity)
     .then(data => {
       console.log(data.message);
       pendingElement.remove()
@@ -22,8 +24,7 @@ addBtn.addEventListener('click', (event) => {
     });
 });
 
-const addItem = () => {
-  const name = cart.value
+const addItem = (name) => {
   if (name.trim() !== '') {
     const li = document.createElement('li')
     li.classList.add("list-item")
@@ -53,6 +54,7 @@ const addItem = () => {
     cart.value = ''
     return li
   }
+  return null; // Explicitly return null if name is empty
 }
 
 const deleteItemFromDatabase = (item) => {
@@ -70,12 +72,14 @@ const deleteItemFromDatabase = (item) => {
   });
 }
 
-const additemToDatabase = (item) => {
+const additemToDatabase = (itemName, itemQuantity) => {
   // Simulate database latency (1 second)
+  console.log(itemQuantity)
+  console.log(itemName)
   return fetch('/api/tasks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ item })
+    body: JSON.stringify({ itemName })
   })
   .then(res => res.json())
   .then(data => {
@@ -83,6 +87,10 @@ const additemToDatabase = (item) => {
     return data
   });
 }
+
+
+
+
 
 const createDropdown = () => {
   const dropdown = document.createElement('select')
